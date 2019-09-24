@@ -33,7 +33,7 @@ public class FlightService {
             LOGGER.info("Flight saved");
             return flight;
         } else {
-            LOGGER.warn("Flight for this date already exists.");
+            LOGGER.warn("Flight for this date already exists. {} {}", newFlight.getFlightNumber(), newFlight.getFlightDepartureDate());
             throw new FlightExistsException("Flight for this date already exists.");
         }
     }
@@ -47,7 +47,7 @@ public class FlightService {
             LOGGER.info("Flight with meals saved");
             return flight;
         } else {
-            LOGGER.warn("There is no flight for this date.");
+            LOGGER.warn("There is no flight for this date. {} {}", flightNumber, flightDepartureDate);
             throw new FlightNotFoundException("There is no flight for this date.");
         }
     }
@@ -56,7 +56,7 @@ public class FlightService {
         LOGGER.info("Get flight called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
         if (null == flight) {
-            LOGGER.warn("There is no flight for this date.");
+            LOGGER.warn("There is no flight for this date. {} {}", flightNumber, flightDepartureDate);
             throw new FlightNotFoundException("There is no flight for this date.");
         }
         LOGGER.info("Flight retrieved from DB");
@@ -70,7 +70,7 @@ public class FlightService {
             flightRepository.delete(flight);
             LOGGER.info("Flight deleted");
         } else {
-            LOGGER.warn("There is no flight for this date.");
+            LOGGER.warn("There is no flight for this date. {} {}", flightNumber, flightDepartureDate);
             throw new FlightNotFoundException("There is no flight for this date.");
         }
     }
