@@ -52,9 +52,13 @@ public class FlightService {
         }
     }
 
-    public FlightDao getFlight(Date flightDepartureDate, String flightNumber) {
+    public FlightDao getFlight(Date flightDepartureDate, String flightNumber) throws FlightNotFoundException {
         LOGGER.info("Get flight called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
+        if (null == flight) {
+            LOGGER.warn("There is no flight for this date.");
+            throw new FlightNotFoundException("There is no flight for this date.");
+        }
         LOGGER.info("Flight retrieved from DB");
         return flight;
     }

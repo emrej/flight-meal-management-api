@@ -68,6 +68,9 @@ public class FlightController {
             FlightDao flight = flightService.getFlight(stringToDate(flightDepartureDate), flightNumber);
             LOGGER.info("Flight retrieved from service");
             return ResponseEntity.ok(flight);
+        } catch (FlightNotFoundException fe) {
+            LOGGER.error("Flight for this date not found {} {}", flightNumber, flightDepartureDate);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             LOGGER.error("Error during get flight info", e);
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
