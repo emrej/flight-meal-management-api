@@ -2,6 +2,7 @@ package com.emrej.flightmeal.dao;
 
 import com.emrej.flightmeal.model.MealClass;
 import com.emrej.flightmeal.model.MealType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class MealDao {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private FlightDao flight;
 
     @Enumerated(EnumType.STRING)

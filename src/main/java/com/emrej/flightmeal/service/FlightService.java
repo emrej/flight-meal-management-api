@@ -59,6 +59,18 @@ public class FlightService {
         return flight;
     }
 
+    public void deleteFlight(Date flightDepartureDate, String flightNumber) throws FlightNotFoundException {
+        LOGGER.info("Delete flight called..");
+        FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
+        if (null != flight) {
+            flightRepository.delete(flight);
+            LOGGER.info("Flight deleted");
+        } else {
+            LOGGER.warn("There is no flight for this date.");
+            throw new FlightNotFoundException("There is no flight for this date.");
+        }
+    }
+
     public Iterable<FlightDao> getAllFlights() {
         LOGGER.info("Get all flights called..");
         Iterable<FlightDao> flights = flightRepository.findAll();

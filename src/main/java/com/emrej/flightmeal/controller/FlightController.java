@@ -90,6 +90,22 @@ public class FlightController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{flightNumber}/{flightDepartureDate}")
+    public ResponseEntity deleteFlight(@PathVariable("flightNumber") String flightNumber, @PathVariable("flightDepartureDate") String flightDepartureDate) {
+        LOGGER.info("Delete flight, controller method..");
+        try {
+            flightService.deleteFlight(stringToDate(flightDepartureDate), flightNumber);
+            LOGGER.info("Flight deleted");
+            return ResponseEntity.noContent().build();
+        } catch (FlightNotFoundException fe) {
+            LOGGER.error("Flight for this date not found {} {}", flightNumber, flightDepartureDate);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            LOGGER.error("Error during delete flight", e);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public ResponseEntity getAllFlights() {
         LOGGER.info("Get all flights, controller method..");
