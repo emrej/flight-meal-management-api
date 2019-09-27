@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class FlightService {
@@ -75,10 +77,10 @@ public class FlightService {
         }
     }
 
-    public Iterable<FlightDao> getAllFlights() {
+    public Stream<FlightDao> getAllFlights() {
         LOGGER.info("Get all flights called..");
         Iterable<FlightDao> flights = flightRepository.findAll();
         LOGGER.info("All flights retrieved from DB");
-        return flights;
+        return StreamSupport.stream(flights.spliterator(), false);
     }
 }

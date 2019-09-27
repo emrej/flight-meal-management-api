@@ -2,14 +2,17 @@ package com.emrej.flightmeal.dao;
 
 import com.emrej.flightmeal.model.MealClass;
 import com.emrej.flightmeal.model.MealType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Data
+@EqualsAndHashCode(exclude = "flight")
+@ToString(exclude = "flight")
 @Entity(name = "meal")
 public class MealDao {
 
@@ -19,7 +22,6 @@ public class MealDao {
 
     @ManyToOne
     @JoinColumn
-    @JsonIgnore
     private FlightDao flight;
 
     @Enumerated(EnumType.STRING)

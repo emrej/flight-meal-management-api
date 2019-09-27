@@ -32,7 +32,11 @@ public class FlightDao {
     private Set<MealDao> meals;
 
     public void addMeals(List<MealDao> meals) {
-        this.meals = new HashSet<>(meals);
+        if (this.meals == null) {
+            this.meals = new HashSet<>(meals);
+        } else {
+            this.meals.addAll(meals);
+        }
         this.meals.forEach(x -> x.setFlight(this));
     }
 

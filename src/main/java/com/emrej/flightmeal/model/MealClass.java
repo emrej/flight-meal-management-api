@@ -18,4 +18,8 @@ public enum MealClass {
         }
         throw new IllegalArgumentException("Enum value not found");
     }
+
+    public String getTypeName() {
+        return typeName;
+    }
 }

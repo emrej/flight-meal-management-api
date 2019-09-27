@@ -8,8 +8,11 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import static com.emrej.flightmeal.model.MealType.*;
+import static com.emrej.flightmeal.model.MealType.values;
 
 @ToString
 @Getter
@@ -17,23 +20,46 @@ import static com.emrej.flightmeal.model.MealType.*;
 public class Meals {
 
     @JsonProperty("meals")
-    private List<Meal> meals;
+    private List<Meal> mealList;
 
     public List<MealDao> from() {
-        List<MealDao> mealsMapped = new ArrayList<>();
-        this.meals.forEach(meal -> {
+        List<MealDao> mealDaoList = new ArrayList<>();
+        this.mealList.forEach(meal -> {
             MealClass mealClass = MealClass.getByTypeName(meal.getMealClass());
-            mealsMapped.add(new MealDao(mealClass, BREAKFAST, meal.getBreakfast()));
-            mealsMapped.add(new MealDao(mealClass, LIGHT_SNACK, meal.getLightSnack()));
-            mealsMapped.add(new MealDao(mealClass, LUNCH, meal.getLunch()));
-            mealsMapped.add(new MealDao(mealClass, DINNER, meal.getDinner()));
+            for (MealType mealType : values()) {
+                mealDaoList.add(new MealDao(mealClass, mealType, meal.getNumberOfMeal(mealType)));
+            }
         });
-        return mealsMapped;
+        return mealDaoList;
     }
 
-    protected Meals() {}
+    public static List<Meal> to(Set<MealDao> mealDaos) {
+        List<Meal> mealList = new ArrayList<>();
+        if (mealDaos == null) {
+            return mealList;
+        }
 
-    public Meals(List<Meal> meals) {
-        this.meals = meals;
+        Map<MealClass, List<MealDao>> groupByMealClassMap = mealDaos.stream().collect(Collectors.groupingBy(MealDao::getMealClass));
+
+        groupByMealClassMap.keySet().forEach((mealClass) -> {
+            List<MealDao> listMealClass = groupByMealClassMap.get(mealClass);
+            Meal meal = new Meal();
+            meal.setMealClass(mealClass.getTypeName());
+            Map<MealType, List<MealDao>> groupByMealTypeMap = listMealClass.stream().collect(Collectors.groupingBy(MealDao::getMealType));
+
+            groupByMealTypeMap.keySet().forEach((mealType) -> {
+                List<MealDao> listMealType = groupByMealTypeMap.get(mealType);
+                int numberOfMeals = listMealType.stream().mapToInt(MealDao::getNumberOfMeals).sum();
+                meal.setNumberOfMeal(mealType, numberOfMeals);
+            });
+
+            mealList.add(meal);
+        });
+
+        return mealList;
+    }
+
+    Meals() {
+        this.mealList = new ArrayList<>();
     }
 }

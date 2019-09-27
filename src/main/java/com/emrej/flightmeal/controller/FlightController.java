@@ -17,10 +17,14 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.emrej.flightmeal.util.DateConverter.dateToString;
 import static com.emrej.flightmeal.util.DateConverter.stringToDate;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/flight")
 public class FlightController {
@@ -49,7 +53,7 @@ public class FlightController {
 
         LOGGER.info("Location is {}", location.toString());
 
-        return ResponseEntity.created(location).body(flightSaved);
+        return ResponseEntity.created(location).body(Flight.to(flightSaved));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{flightNumber}/{flightDepartureDate}")
@@ -57,7 +61,7 @@ public class FlightController {
         LOGGER.info("Get flight info, controller method..");
         FlightDao flight = flightService.getFlight(stringToDate(flightDepartureDate), flightNumber);
         LOGGER.info("Flight retrieved from service");
-        return ResponseEntity.ok(flight);
+        return ResponseEntity.ok(Flight.to(flight));
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/{flightNumber}/{flightDepartureDate}/meals")
@@ -65,7 +69,7 @@ public class FlightController {
         LOGGER.info("Add meals, controller method..");
         FlightDao flight = flightService.addMeals(stringToDate(flightDepartureDate), flightNumber, meals);
         LOGGER.info("Meals added to flight");
-        return ResponseEntity.accepted().body(flight);
+        return ResponseEntity.accepted().body(Flight.to(flight));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{flightNumber}/{flightDepartureDate}")
@@ -79,8 +83,9 @@ public class FlightController {
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public ResponseEntity getAllFlights() {
         LOGGER.info("Get all flights, controller method..");
-        Iterable<FlightDao> flights = flightService.getAllFlights();
+        Stream<FlightDao> flightDaoStream = flightService.getAllFlights();
         LOGGER.info("All flights retrieved from DB");
+        List<Flight> flights = flightDaoStream.map(Flight::to).collect(Collectors.toList());
         return ResponseEntity.ok(flights);
     }
 
