@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-class Meal {
+public class Meal {
 
     @JsonProperty("mealClass")
     private String mealClass;

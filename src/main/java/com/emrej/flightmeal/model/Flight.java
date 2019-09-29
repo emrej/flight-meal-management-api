@@ -32,7 +32,7 @@ public class Flight {
 
     public Flight() {}
 
-    private Flight(Date flightDepartureDate, String flightNumber) {
+    public Flight(Date flightDepartureDate, String flightNumber) {
         this.flightDepartureDate = cleanUpTime(flightDepartureDate);
         this.flightNumber = flightNumber;
     }

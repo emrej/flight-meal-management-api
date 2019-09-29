@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.emrej.flightmeal.util.DateConverter.cleanUpTime;
+
 @Data
 @EqualsAndHashCode(exclude = "meals")
 @Entity(name = "flight")
@@ -43,7 +45,7 @@ public class FlightDao {
     protected FlightDao() {}
 
     public FlightDao(Date flightDepartureDate, String flightNumber) {
-        this.flightDepartureDate = flightDepartureDate;
+        this.flightDepartureDate = cleanUpTime(flightDepartureDate);
         this.flightNumber = flightNumber;
     }
 

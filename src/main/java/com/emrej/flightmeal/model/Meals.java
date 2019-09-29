@@ -62,4 +62,11 @@ public class Meals {
     Meals() {
         this.mealList = new ArrayList<>();
     }
+
+    public Meals(List<Meal> mealList) {
+        this();
+        if (mealList != null) {
+            this.mealList = mealList;
+        }
+    }
 }
