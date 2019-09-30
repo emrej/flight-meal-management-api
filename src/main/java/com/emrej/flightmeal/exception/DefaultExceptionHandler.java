@@ -10,6 +10,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.ConstraintViolationException;
 
+/**
+ * Default exception handler for converting exceptions to Http status codes
+ */
 @ControllerAdvice
 public class DefaultExceptionHandler {
 

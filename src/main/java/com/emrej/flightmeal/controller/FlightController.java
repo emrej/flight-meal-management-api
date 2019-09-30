@@ -38,6 +38,12 @@ public class FlightController {
         this.flightService = flightService;
     }
 
+    /**
+     * Add a flight into the DB with flight number and flight departure date
+     * @param @Flight flight
+     * @return ResponseEntity
+     * @throws FlightExistsException
+     */
     @Consumes(MediaType.APPLICATION_JSON)
     @RequestMapping(method = RequestMethod.POST, path = "/")
     public ResponseEntity addFlight(@RequestBody Flight flight) throws FlightExistsException {
@@ -56,6 +62,14 @@ public class FlightController {
         return ResponseEntity.created(location).body(Flight.to(flightSaved));
     }
 
+    /**
+     * Get a flight information including the meals inside the flight
+     * @param flightNumber
+     * @param flightDepartureDate
+     * @return ResponseEntity
+     * @throws ParseException
+     * @throws FlightNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/{flightNumber}/{flightDepartureDate}")
     public ResponseEntity getFlightInfo(@PathVariable("flightNumber") String flightNumber, @PathVariable("flightDepartureDate") String flightDepartureDate) throws ParseException, FlightNotFoundException {
         LOGGER.info("Get flight info, controller method..");
@@ -64,6 +78,15 @@ public class FlightController {
         return ResponseEntity.ok(Flight.to(flight));
     }
 
+    /**
+     * Add meals into a flight
+     * @param flightNumber
+     * @param flightDepartureDate
+     * @param meals
+     * @return ResponseEntity
+     * @throws ParseException
+     * @throws FlightNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/{flightNumber}/{flightDepartureDate}/meals")
     public ResponseEntity addMeals(@PathVariable("flightNumber") String flightNumber, @PathVariable("flightDepartureDate") String flightDepartureDate, @RequestBody Meals meals) throws ParseException, FlightNotFoundException {
         LOGGER.info("Add meals, controller method..");
@@ -72,6 +95,14 @@ public class FlightController {
         return ResponseEntity.accepted().body(Flight.to(flight));
     }
 
+    /**
+     * Delete a flight with a flight number and departure date, deletes the associated meals as well
+     * @param flightNumber
+     * @param flightDepartureDate
+     * @return ResponseEntity
+     * @throws ParseException
+     * @throws FlightNotFoundException
+     */
     @RequestMapping(method = RequestMethod.DELETE, path = "/{flightNumber}/{flightDepartureDate}")
     public ResponseEntity deleteFlight(@PathVariable("flightNumber") String flightNumber, @PathVariable("flightDepartureDate") String flightDepartureDate) throws ParseException, FlightNotFoundException {
         LOGGER.info("Delete flight, controller method..");
@@ -80,6 +111,10 @@ public class FlightController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Get all flights recorded in the DB
+     * @return ResponseEntity
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public ResponseEntity getAllFlights() {
         LOGGER.info("Get all flights, controller method..");

@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 
 import static com.emrej.flightmeal.model.MealType.values;
 
+/**
+ * Model class representing the 'meals list of a flight' for transferring information between FrontEnd and other APIs
+ * Responsible for converting data between DAOs and integration models
+ */
 @ToString
 @Getter
 @EqualsAndHashCode
@@ -22,6 +26,10 @@ public class Meals {
     @JsonProperty("meals")
     private List<Meal> mealList;
 
+    /**
+     * Converts the object model (JSON) structure of meals into flat DB models
+     * @return List<MealDao>
+     */
     public List<MealDao> from() {
         List<MealDao> mealDaoList = new ArrayList<>();
         this.mealList.forEach(meal -> {
@@ -33,6 +41,11 @@ public class Meals {
         return mealDaoList;
     }
 
+    /**
+     * Converts the flat DB model structure of meals into object models (JSON structure)
+     * @param mealDaos
+     * @return List<Meal>
+     */
     public static List<Meal> to(Set<MealDao> mealDaos) {
         List<Meal> mealList = new ArrayList<>();
         if (mealDaos == null) {

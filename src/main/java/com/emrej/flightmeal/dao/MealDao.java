@@ -10,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+/**
+ * DAO class representing the DB entity of a Meal
+ */
 @Data
 @EqualsAndHashCode(exclude = "flight")
 @ToString(exclude = "flight")

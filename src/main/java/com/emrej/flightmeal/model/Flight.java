@@ -14,6 +14,9 @@ import java.util.List;
 import static com.emrej.flightmeal.util.DateConverter.PATTERN;
 import static com.emrej.flightmeal.util.DateConverter.cleanUpTime;
 
+/**
+ * Model class representing a 'flight on a date' for transferring information between FrontEnd and other APIs
+ */
 @ToString
 @Getter
 @Setter

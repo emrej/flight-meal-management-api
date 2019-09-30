@@ -1,5 +1,8 @@
 package com.emrej.flightmeal.model;
 
+/**
+ * Type of meal
+ */
 public enum MealType {
     BREAKFAST("breakfast"),
     LIGHT_SNACK("lightSnack"),

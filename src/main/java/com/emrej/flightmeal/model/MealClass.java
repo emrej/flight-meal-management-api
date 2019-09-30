@@ -1,5 +1,8 @@
 package com.emrej.flightmeal.model;
 
+/**
+ * The class which the meal belongs to
+ */
 public enum MealClass {
     ECONOMY("economyClass"),
     BUSINESS("businessClass");

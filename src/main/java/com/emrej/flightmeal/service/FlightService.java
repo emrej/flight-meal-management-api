@@ -27,6 +27,12 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
+    /**
+     * Adds a flight into the DB and returns back that added flight DAO
+     * @param newFlight
+     * @return FlightDao
+     * @throws FlightExistsException
+     */
     public FlightDao addFlight(Flight newFlight) throws FlightExistsException {
         LOGGER.info("Add flight called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(newFlight.getFlightDepartureDate(), newFlight.getFlightNumber());
@@ -40,6 +46,14 @@ public class FlightService {
         }
     }
 
+    /**
+     * Adds meals into a flight, saves the flight with the meals and returns back the Flight DAO (which includes meals)
+     * @param flightDepartureDate
+     * @param flightNumber
+     * @param meals
+     * @return FlightDao
+     * @throws FlightNotFoundException
+     */
     public FlightDao addMeals(Date flightDepartureDate, String flightNumber, Meals meals) throws FlightNotFoundException {
         LOGGER.info("Add meals called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
@@ -54,6 +68,13 @@ public class FlightService {
         }
     }
 
+    /**
+     * Gets a flight from DB and returns as the Flight DAO
+     * @param flightDepartureDate
+     * @param flightNumber
+     * @return FlightDao
+     * @throws FlightNotFoundException
+     */
     public FlightDao getFlight(Date flightDepartureDate, String flightNumber) throws FlightNotFoundException {
         LOGGER.info("Get flight called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
@@ -65,6 +86,12 @@ public class FlightService {
         return flight;
     }
 
+    /**
+     * Deletes a flight from DB; if not found, throws an exception
+     * @param flightDepartureDate
+     * @param flightNumber
+     * @throws FlightNotFoundException
+     */
     public void deleteFlight(Date flightDepartureDate, String flightNumber) throws FlightNotFoundException {
         LOGGER.info("Delete flight called..");
         FlightDao flight = flightRepository.findByFlightDepartureDateAndFlightNumber(flightDepartureDate, flightNumber);
@@ -77,6 +104,10 @@ public class FlightService {
         }
     }
 
+    /**
+     * Gets all flights stored in DB and returns them as a stream
+     * @return Stream<FlightDao>
+     */
     public Stream<FlightDao> getAllFlights() {
         LOGGER.info("Get all flights called..");
         Iterable<FlightDao> flights = flightRepository.findAll();

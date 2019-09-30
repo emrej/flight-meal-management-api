@@ -13,6 +13,9 @@ import java.util.Set;
 
 import static com.emrej.flightmeal.util.DateConverter.cleanUpTime;
 
+/**
+ * DAO class representing the DB entity of a Flight
+ */
 @Data
 @EqualsAndHashCode(exclude = "meals")
 @Entity(name = "flight")

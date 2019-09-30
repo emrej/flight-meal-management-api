@@ -3,6 +3,9 @@ package com.emrej.flightmeal.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+/**
+ * Model class representing the 'amount of meal types of a flight' for transferring information between FrontEnd and other APIs
+ */
 @ToString
 @Getter
 @NoArgsConstructor
