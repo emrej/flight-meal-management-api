@@ -40,6 +40,11 @@ public class Flight {
         this.flightNumber = flightNumber;
     }
 
+    /**
+     * Converts the Flight DAO (DB Entity representative) into the Flight JSON model structure including meals
+     * @param flightDao
+     * @return Flight
+     */
     public static Flight to(FlightDao flightDao) {
         Flight flight = new Flight(flightDao.getFlightDepartureDate(), flightDao.getFlightNumber());
         flight.setMeals(Meals.to(flightDao.getMeals()));

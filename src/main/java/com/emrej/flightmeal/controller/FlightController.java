@@ -40,6 +40,7 @@ public class FlightController {
 
     /**
      * Add a flight into the DB with flight number and flight departure date
+     * Returns the Flight object with 'created' Http status and with 'location' (Url)
      * @param @Flight flight
      * @return ResponseEntity
      * @throws FlightExistsException
